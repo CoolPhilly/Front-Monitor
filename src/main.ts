@@ -23,18 +23,18 @@ app.use(router)
 
 console.log(new Tracker);
 
-// new Tracker({
-//   appid: 'v2-1665730912638-6344746769586',
-//   userbehavior: true, //用户行为上报
-//   // isImmediate:true,
-//   baseError: true,
-//   performance: true,
-//   requestUrl: "http://localhost:3001/tracker", //接口地址
-//   extra: {
-//     vue: app,
-//   }
-// }
-// )
+new Tracker({
+  appid: 'v2-1667353824685-1146960441358',
+  userbehavior: true, //用户行为上报
+  // isImmediate:true,
+  baseError: true,
+  performance: true,
+  requestUrl: "http://1.15.172.157:3000/api/tracker", //接口地址
+  extra: {
+    vue: app,
+  }
+}
+)
 
 app.mount('#app')
 

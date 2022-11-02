@@ -65,11 +65,11 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
     }
 }
 const user = reactive({
-    username: "asdasd",
-    phone: "13588515002",
+    username: "",
+    phone: "",
     // idcode: "",
-    password: "123456",
-    passwordagain: "123456",
+    password: "",
+    passwordagain: "",
     agreement: []
 })
 

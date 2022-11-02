@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -24,10 +25,13 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
-      external: [
-          "element-plus"
-      ]
-    }
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        //生产环境时移除console
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   }
 })

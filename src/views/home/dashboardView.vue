@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-row>
       <el-col :span="24">
         <el-card class="box-card">
@@ -67,7 +67,7 @@
     </el-row>
     <el-row class="center">
       <el-col :span="24">
-        <Pvuv :appid = "appValue"></Pvuv>
+        <Pvuv :appid = "appValue" :date = "dateValue" @changeloading="(n) => loading = n "></Pvuv>
       </el-col>
     </el-row>
     <el-row :gutter="20" class="center"> 
@@ -102,18 +102,19 @@ import { getYearMonthDay } from "@/utils/timestampToTime"
 const options = ref([])
 const appValue = ref('')
 const dateValue = ref(Date.now())
-
+const loading = ref(true)
 
 const disabledDate = (time: Date) => {
   return time.getTime() > Date.now()
 }
 const handlechange = () => {
+  loading.value = true
   getProjectErrorInfoAgain()
   getProjectNetworkInfoAgain()
   getProjectRenderInfoAgain()
   // getProjectResourceInfoAgain()
   // console.log(timestampToTime(dateValue.value));
-
+  
 
 }
 
@@ -264,5 +265,10 @@ const getProjectRenderInfoAgain = async () => {
 
 .box-card {
   width: 100%;
+}
+
+// 修改loading的图标位置
+:deep(.el-loading-spinner ) {
+  top: 17%;
 }
 </style>

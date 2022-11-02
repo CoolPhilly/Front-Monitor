@@ -5,10 +5,10 @@
             <el-input type="text" placeholder="请输入帐号" v-model="user.username" />
         </el-form-item>
         <el-form-item prop="password">
-            <el-input type="password" placeholder="请输入密码" v-model="user.password" />
+            <el-input type="password" placeholder="请输入密码" @keyup.enter.native="handleLogin(userForm)" v-model="user.password" />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" class="btn-login" @click="handleLogin(userForm)">登录</el-button>
+            <el-button type="primary" class="btn-login" :loading="loading" @click="handleLogin(userForm)">{{ loading ? '登录中 ...' : '登录' }}</el-button>
         </el-form-item>
         <el-form-item>
             <div class="otherlogin">
@@ -35,8 +35,8 @@ const uStore = userStore()
 
 
 const user = reactive({
-    username: "admin4",
-    password: "123456"
+    username: "",
+    password: ""
 })
 const rules = reactive({
     username: [{ required: true, message: '请输入帐号', trigger: 'blur' }, { pattern: /^[A-Za-z0-9]{3,12}$/, message: '仅包含a-z A-Z 0-9 的3-12位的帐号', trigger: 'blur' }],
@@ -46,7 +46,9 @@ const rules = reactive({
 const userForm = ref<FormInstance>()
 const router = useRouter()
 
+const loading = ref(false)
 const handleLogin = (userForm) => {
+    loading.value = true
     userForm.validate(async (valid) => {
         if (valid) {
             let param = {
@@ -60,17 +62,26 @@ const handleLogin = (userForm) => {
                 
                 uStore.token = res.token
                 uStore.setToken()
-                ElMessage({ type: 'success', message: res.message, showClose: true, duration: 3000 })
-
+                
                 // const { data: resl } = await getUserInfo()
                 // uStore.userinfo = resl
-
-
+                
+                
                 router.replace({ path: "/" })
+                ElMessage({ type: 'success', message: res.message, showClose: true, duration: 3000 })
 
-            } else ElMessage({ type: 'error', message: res.message, showClose: true, duration: 3000 })
-        } else return ElMessage({ type: 'error', message: "登录失败", showClose: true, duration: 3000 })
+            } 
+            else {
+                ElMessage({ type: 'error', message: res.message, showClose: true, duration: 3000 })
+                loading.value = false
+            }
+        } 
+        else {
+            ElMessage({ type: 'error', message: "登录失败", showClose: true, duration: 3000 })
+            loading.value = false
+        } 
     })
+
 }
 
 </script>

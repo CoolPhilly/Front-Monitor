@@ -16,8 +16,9 @@ import { getMonth, getYearMonthDay } from "@/utils/timestampToTime";
 import { getProjectUserInfo } from "@/api/projectinfo"
 
 
-const props = defineProps(['appid'])
+const props = defineProps(['appid', 'date'])
 // console.log(props.appid, 'props.appid');
+const emit = defineEmits(['changeloading'])
 
 const option = ref({
   tooltip: {
@@ -111,7 +112,6 @@ const option = ref({
 watch(props, async () => {
   // console.log(props.appid);
   // 获取项目用户信息
-
   let dateArr = [...new Array(30)].map((_item, index) => `${getYearMonthDay(Date.now() - index * 24 * 60 * 60 * 1000)}`).reverse()
   for (let item of dateArr) {
 
@@ -135,7 +135,7 @@ watch(props, async () => {
     }
     
   }
-
+  emit('changeloading', false)
 
 })
 
