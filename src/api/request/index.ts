@@ -7,7 +7,7 @@ import { userStore } from "@/stores/user";
 
 const request = axios.create({
     withCredentials: true, // 异步请求携带cookie
-    timeout: 1000,
+    timeout: 50000,
     baseURL: import.meta.env.VITE_BASE_API
 })
 // axios的全局配置

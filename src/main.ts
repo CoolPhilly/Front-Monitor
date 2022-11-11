@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
+import DataVVue3 from '@kjgl77/datav-vue3'
 import Tracker from 'front-monitor-sdk'
 
 
@@ -18,6 +19,7 @@ Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons])
 })
 
+app.use(DataVVue3)
 app.use(pinia)
 app.use(router)
 

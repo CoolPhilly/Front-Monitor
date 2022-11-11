@@ -40,6 +40,7 @@ const routes = reactive(uStore.userinfo.data.routes)
     font-weight: 700;
     color: #fff;
     padding-left: 5px;
+    white-space: nowrap;
   }
 }
 .logochange {
@@ -60,5 +61,4 @@ const routes = reactive(uStore.userinfo.data.routes)
   //去掉菜单栏右边多出一像素的线条
   border-right: none;
 }
-
 </style>

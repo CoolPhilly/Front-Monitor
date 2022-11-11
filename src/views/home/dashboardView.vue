@@ -34,9 +34,7 @@
         <el-card class="box-card changesize-xs">
           <div class="cardinfo">
             <span>{{ failData.length }}</span>
-            <span>{{ failData.length / (failData.length + successData.length) ? failData.length / (failData.length +
-                successData.length)*100 : 0
-            }}%</span>
+            <span>{{ APIErrorOdds }}%</span>
           </div>
           <div class="carddesc">
             <span>API错误数</span>
@@ -47,7 +45,7 @@
       <el-col :xs="24" :sm="12" :md="6">
         <el-card class="box-card changesize">
           <div class="cardinfo-x">
-            <span>{{ renderTime / loadArr.length ? renderTime / loadArr.length :0}}ms</span>
+            <span>{{ renderTime / loadArr.length ? (renderTime / loadArr.length).toFixed(2) :0}}ms</span>
           </div>
           <div class="carddesc-x">
             <span>首次渲染耗时</span>
@@ -67,12 +65,12 @@
     </el-row>
     <el-row class="center">
       <el-col :span="24">
-        <Pvuv :appid = "appValue" :date = "dateValue" @changeloading="(n) => loading = n "></Pvuv>
+        <Pvuv :appid = "appValue" :date = "dateValue" :height="400" @changeloading="(n) => loading = n "></Pvuv>
       </el-col>
     </el-row>
     <el-row :gutter="20" class="center"> 
       <el-col :xs="24" :md="8">
-        <error :appid = "appValue" :date = "dateValue"></error>
+        <error :appid = "appValue" :date = "dateValue" ></error>
       </el-col>
       <el-col :xs="24" :md="16">
         <errorTrend :appid = "appValue"></errorTrend>
@@ -98,6 +96,7 @@ import { getProjectErrorInfo, getProjectNetworkInfo, getProjectRenderInfo } from
 import { getYearMonthDay } from "@/utils/timestampToTime"
 
 
+
 // 条件选择
 const options = ref([])
 const appValue = ref('')
@@ -121,6 +120,8 @@ const handlechange = () => {
 // 初始化
 const getProjectListAgain = async () => {
   const { data: res } = await getProjectList()
+  console.log(res);
+  
   options.value = res.data
   appValue.value = options.value[0]?.appid
   handlechange()
@@ -156,6 +157,8 @@ const getProjectErrorInfoAgain = async () => {
 
 const successData = ref([])
 const failData = ref([])
+// API错误率
+const APIErrorOdds = ref(0)
 const getProjectNetworkInfoAgain = async () => {
   let parms = {
     appid: appValue.value,
@@ -164,12 +167,16 @@ const getProjectNetworkInfoAgain = async () => {
   }
 
   const { data: res } = await getProjectNetworkInfo(parms)
-
+  console.log(res,'resresresresresresres');
+  
   successData.value = res.data.filter(item => { if (item.status >= 200 && item.status <= 299) return true })
   failData.value = res.data.filter(item => { if (item.status < 200 || item.status >= 300) return true })
   // console.log(successData.value, 'successData.value ');
   // console.log(failData.value, 'failData.value ');
-
+  //failData.value.length /(failData.value.length + successData.value.length)
+  let sum =   failData.value.length / (failData.value.length + successData.value.length) * 100 || 0
+  APIErrorOdds.value = +sum.toFixed(2)
+  // APIErrorOdds.value = failData.value.length / (failData.value.length + successData.value.length) * 100
 }
 
 // 获取项目渲染信息

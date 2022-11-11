@@ -19,9 +19,10 @@
                                     <el-button text :icon="More"></el-button>
                                     <template #dropdown>
                                         <el-dropdown-menu>
-                                            <el-dropdown-item :command="beforeHandleCommand('delete',item.appid)">删除
+                                            <el-dropdown-item :command="beforeHandleCommand('delete',item.appid)">删除项目
                                             </el-dropdown-item>
-
+                                            <el-dropdown-item :command="beforeHandleCommand('bigscreen',item.appid)">查看大屏
+                                            </el-dropdown-item>
                                         </el-dropdown-menu>
                                     </template>
                                 </el-dropdown>
@@ -75,14 +76,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive } from "vue"
+import { useRouter } from 'vue-router'
 import { Plus, More } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from "element-plus"
 import type { FormInstance, FormRules } from 'element-plus'
 import { createProject, deleteProject,getProjectList } from "@/api/project";
 import generateUniqueID from "@/utils/generateUniqueID";
 
-
+const router = useRouter()
 
 // 获取项目列表
 const app = ref([])
@@ -157,6 +159,7 @@ const beforeHandleCommand = (command, appid) => {
 }
 
 const handleCommand = async (val) => {
+    // console.log(val);
     if (val.command === "delete") {
         ElMessageBox.confirm(
             '是否确认删除?',
@@ -169,7 +172,7 @@ const handleCommand = async (val) => {
         )
             .then(async () => {
 
-                console.log( val.appid);
+                
 
                 /* 
                 ref 定义数据（包括对象）时，都会变成 RefImpl(Ref 引用对象) 类的实例，
@@ -196,6 +199,12 @@ const handleCommand = async (val) => {
 
 
     }
+    if (val.command === "bigscreen") {
+        console.log();
+        
+
+        router.push({ path: '/bigScreen', query: { appid: val.appid } } )
+    }   
 
 }
 

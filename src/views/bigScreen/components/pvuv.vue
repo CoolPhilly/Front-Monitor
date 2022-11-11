@@ -31,20 +31,23 @@ const option = ref({
     },
   },
   legend: {
-    show: true,
+    show: false,
     right: "0%"
   },
   xAxis: {
     type: 'category',
     boundaryGap: false,
     data: [...new Array(30)].map((_item, index) => `${getMonth(Date.now() - index * 24 * 60 * 60 * 1000)}`).reverse(),
+    // splitLine: {
+    //   show: false,
+    //   lineStyle: {
+    //     width: 1,
+    //     type: 'solid',
+    //     color: 'rgba(226,226,226,0.5)',
+    //   },
+    // },
     splitLine: {
-      show: true,
-      lineStyle: {
-        width: 1,
-        type: 'solid',
-        color: 'rgba(226,226,226,0.5)',
-      },
+      show: false
     },
     axisTick: {
       show: false,
@@ -53,26 +56,28 @@ const option = ref({
   yAxis: [
     {
       type: 'value',
-
-      splitArea: {
-        show: true,
-        areaStyle: {
-          color: ['rgba(255,255,255,0.2)', 'rgba(226,226,226,0.2)'],
-        },
+      splitLine: {
+        show: false
       },
+      // splitArea: {
+      //   show: false,
+      //   areaStyle: {
+      //     color: ['rgba(255,255,255,0.2)', 'rgba(226,226,226,0.2)'],
+      //   },
+      // },
     },
   ],
-  grid: { left: '1%', right: '1%', top: '8%', bottom: '12%', containLabel: true },
+  grid: { left: '1%', right: '1%', top: '8%', bottom: '2%', containLabel: true },
   dataZoom: [
     {
       type: 'inside',
       start: 66,
       end: 100
     },
-    {
-      start: 66,
-      end: 100
-    }
+    // {
+    //   start: 66,
+    //   end: 100
+    // }
   ],
   series: [
     {
@@ -101,7 +106,7 @@ const option = ref({
       type: 'line',
       areaStyle: {},
       itemStyle: {
-        color: '#019680',
+        color: '#0DAD48',
       },
     },
   ],
@@ -109,7 +114,8 @@ const option = ref({
 
 
 
-watch(props, async () => {
+// watch(props,
+const getInfo =  async () => {
   // console.log(props.appid);
   // 获取项目用户信息
   let dateArr = [...new Array(30)].map((_item, index) => `${getYearMonthDay(Date.now() - index * 24 * 60 * 60 * 1000)}`).reverse()
@@ -137,12 +143,24 @@ watch(props, async () => {
   }
   emit('changeloading', false)
 
-})
+}
+// )
 
-
+getInfo()
 
 
 </script>
 
 <style lang="scss" scoped>
+.box-card{
+  width: 100%;
+  background-color: rgba(6, 30, 93, .5);
+  border: none;
+  :deep(.el-card__header){
+    border: none;
+  }
+  .card-header{
+    color: #fff;
+  }
+}
 </style>

@@ -16,6 +16,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/login/index.vue'),
     meta: { title: "登录" }
   },
+  {
+    path: '/bigScreen',
+    component: () => import('@/views/bigScreen/index.vue'),
+    meta: { title: "可视化大屏" }
+  }
 ]
 const router = createRouter({
   routes,
